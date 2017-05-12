@@ -29,8 +29,14 @@ namespace NugetReferencesExplorer.ViewModel
         private async void LoadPackageItemsAsync()
         {
             IsBusy = true;
-            this.PackageItems = await Task.Run(() => LocalPackageRepositoryFactory.Create().GetPackages(Properties.Settings.Default.sourcePath).Where(p => p.HasDifferentVersion).ToList());//.ForEach(x => x.LoadPackageInfos()));
-            IsBusy = false;            
+            try
+            {
+                this.PackageItems = await Task.Run(() => LocalPackageRepositoryFactory.Create().GetPackages(Properties.Settings.Default.sourcePath).Where(p => p.HasDifferentVersion).ToList());//.ForEach(x => x.LoadPackageInfos()));
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         private IEnumerable<Package> _packageItems;
