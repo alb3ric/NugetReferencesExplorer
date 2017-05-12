@@ -32,7 +32,7 @@ namespace NugetReferencesExplorer.Model.Repository
                     Package pack;
                     if (!res.TryGetValue(packageReference.Id, out pack))
                     {
-                        pack = new Package(packageReference, remoteRepository);
+                        pack = new Package(packageReference, remoteRepository.GetPackage);
                         res.Add(pack.Id, pack);
                     }
                     //Create the package project

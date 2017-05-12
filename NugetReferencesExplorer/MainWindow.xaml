@@ -6,7 +6,7 @@
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:ctrl="clr-namespace:System.Windows.Converters;assembly=WindowsBase"
         xmlns:local="clr-namespace:NugetReferencesExplorer"
-        xmlns:views="clr-namespace:NugetReferencesExplorer.Views"      
+        xmlns:views="clr-namespace:NugetReferencesExplorer.View"      
         xmlns:converters="clr-namespace:NugetReferencesExplorer.Converters"
         mc:Ignorable="d"
         BorderThickness="0" 

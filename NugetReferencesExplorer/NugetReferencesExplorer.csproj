@@ -104,7 +104,7 @@
     <Compile Include="Model\Repository\RemotePackageRepository.cs" />
     <Compile Include="Model\Repository\RemotePackageRepositoryFactory.cs" />
     <Compile Include="ViewModel\ApplicationViewModel.cs" />
-    <Page Include="Views\NugetPackageView.xaml">
+    <Page Include="View\NugetPackageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -116,7 +116,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Views\NugetPackageView.xaml.cs">
+    <Compile Include="View\NugetPackageView.xaml.cs">
       <DependentUpon>NugetPackageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">

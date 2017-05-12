@@ -10,14 +10,14 @@ namespace NugetReferencesExplorer.Model.Domain
 {
     public class Package
     {
-        public Package(PackageReference packageReference, IRemotePackageRepository remoteRepository)
+        public Package(PackageReference packageReference, Func<string, IPackage> getRemotePackageFunc)
         {
             _packageRef = packageReference;
-            _packageRepository = remoteRepository;
+            _getRemotePackageFunc = getRemotePackageFunc;
         }
 
         private readonly PackageReference _packageRef;
-        private readonly IRemotePackageRepository _packageRepository;
+        private readonly Func<string, IPackage> _getRemotePackageFunc;
 
         public string Id => _packageRef.Id;
 
@@ -40,7 +40,7 @@ namespace NugetReferencesExplorer.Model.Domain
             {
                 if (_packageInfos == null)
                 {
-                    _packageInfos = _packageRepository.GetPackage(this.Id);
+                    _packageInfos = _getRemotePackageFunc(this.Id);
                 }                
                 return _packageInfos;
             }
