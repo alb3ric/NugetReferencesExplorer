@@ -4,8 +4,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:ctrl="clr-namespace:System.Windows.Converters;assembly=WindowsBase"
         xmlns:local="clr-namespace:NugetReferencesExplorer"
-        xmlns:views="clr-namespace:NugetReferencesExplorer.Views"                      
+        xmlns:views="clr-namespace:NugetReferencesExplorer.View"  
+        xmlns:VM="clr-namespace:NugetReferencesExplorer.ViewModel"  
+        xmlns:converters="clr-namespace:NugetReferencesExplorer.Converters"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
         BorderThickness="0" 
         GlowBrush="Black"
@@ -13,8 +17,26 @@
 
         WindowTransitionsEnabled="False"
         WindowStartupLocation="CenterScreen"
-        Title="Nuget References Explorer" Height="400" Width="900" Loaded="Window_Loaded">
+        Title="Nuget References Explorer" Height="400" Width="900" >
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadCommand}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+    <Window.DataContext>
+        <VM:ApplicationViewModel />
+    </Window.DataContext>
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="boolVisibilityConverter" />
+        <converters:InverseBooleanConverter x:Key="inverseBoolConverter" />
+    </Window.Resources>
     <Grid>
-        <views:NugetPackageView />
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+        <views:NugetPackageView Grid.Row="0" Visibility="{Binding Path=IsBusy,ElementName=busyRing, Converter={StaticResource inverseBoolConverter} }" />
+        <Controls:ProgressRing Grid.Row="0" x:Name="busyRing" Foreground="{DynamicResource AccentColorBrush}" IsActive="True" Visibility="{Binding IsBusy, Converter={StaticResource boolVisibilityConverter}}" />
     </Grid>
 </Controls:MetroWindow>

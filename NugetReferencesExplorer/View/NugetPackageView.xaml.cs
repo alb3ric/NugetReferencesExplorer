@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace NugetReferencesExplorer.Views
+namespace NugetReferencesExplorer.View
 {
     /// <summary>
     /// Logique d'interaction pour NugetPackageView.xaml
