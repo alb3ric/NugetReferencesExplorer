@@ -14,6 +14,9 @@ namespace NugetReferencesExplorer.Model.Repository
 
         public IList<Package> GetPackages(string path)
         {
+            if (!Directory.Exists(path))
+                throw new DirectoryNotFoundException();
+
             Dictionary<string, Package> res = new Dictionary<string, Package>();
             //Retrieve all the files in the specified path
             string[] files = Directory.GetFiles(path, Properties.Settings.Default.defaultPackageConfigFilename, SearchOption.AllDirectories);

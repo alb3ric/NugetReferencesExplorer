@@ -15,6 +15,7 @@ namespace NugetReferencesExplorer.ViewModel
     {
         #region Properties
 
+
         private bool _isBusy = false;
         public bool IsBusy
         {
@@ -73,6 +74,11 @@ namespace NugetReferencesExplorer.ViewModel
                     res.ForEach(x => x.LoadRemotePackageInfos());
                     return res;
                 });
+            }
+            catch (Exception ex)
+            {
+                //Handle loading error
+                //TODO : fire message dialog
             }
             finally
             {
