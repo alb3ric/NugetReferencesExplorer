@@ -29,10 +29,9 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="1.5*"/>
             </Grid.ColumnDefinitions>
-            <ListView Grid.Column="0" DockPanel.Dock="Left" ItemsSource="{Binding PackageItems}" SelectedItem="{Binding SelectedPackage}">
+            <ListView Grid.Column="0" DockPanel.Dock="Left" ItemsSource="{Binding PackageItems, IsAsync=True}" SelectedItem="{Binding SelectedPackage}">
             </ListView>
             <DataGrid Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding SelectedPackage.Projects}"/>
         </Grid>
-
     </Grid>
 </UserControl>

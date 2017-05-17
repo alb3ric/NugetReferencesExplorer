@@ -40,10 +40,19 @@ namespace NugetReferencesExplorer.Model.Domain
             {
                 if (_packageInfos == null)
                 {
-                    _packageInfos = _getRemotePackageFunc(this.Id);
+                    this.LoadPackageInfos();
                 }                
                 return _packageInfos;
             }
+            private set
+            {
+                _packageInfos = value;
+            }
+        }
+
+        public void LoadPackageInfos()
+        {
+            this.PackageInfos = _getRemotePackageFunc(this.Id);
         }
     }
 }

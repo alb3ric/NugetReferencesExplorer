@@ -1,4 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using NugetReferencesExplorer.Model.Domain;
 using NugetReferencesExplorer.Model.Repository;
 using System;
@@ -12,6 +13,8 @@ namespace NugetReferencesExplorer.ViewModel
 {
     public class ApplicationViewModel : ViewModelBase
     {
+        #region Properties
+
         private bool _isBusy = false;
         public bool IsBusy
         {
@@ -25,31 +28,11 @@ namespace NugetReferencesExplorer.ViewModel
                 }
             }
         }
-
-        private async void LoadPackageItemsAsync()
-        {
-            IsBusy = true;
-            try
-            {
-                this.PackageItems = await Task.Run(() => LocalPackageRepositoryFactory.Create().GetPackages(Properties.Settings.Default.sourcePath).Where(p => p.HasDifferentVersion).ToList());//.ForEach(x => x.LoadPackageInfos()));
-            }
-            finally
-            {
-                IsBusy = false;
-            }
-        }
-
+       
         private IEnumerable<Package> _packageItems;
         public IEnumerable<Package> PackageItems
         {
-            get
-            {                
-                if (_packageItems == null)
-                {
-                    this.LoadPackageItemsAsync();                    
-                }   
-                return _packageItems;              
-            }
+            get => _packageItems;
             set
             {
                 _packageItems = value;
@@ -57,6 +40,58 @@ namespace NugetReferencesExplorer.ViewModel
             }
         }
 
-        public Package SelectedPackage { get; set; }
+        private Package _selectedPackage;
+        public Package SelectedPackage
+        {
+            get => _selectedPackage;            
+            set
+            {
+                if (_selectedPackage != value)
+                {
+                    _selectedPackage = value;
+                    this.RaisePropertyChanged(nameof(SelectedPackage));
+                }
+            }
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private async void LoadPackageItemsAsync()
+        {
+            IsBusy = true;
+            try
+            {
+                this.PackageItems = await Task.Run(() =>
+                {
+                    var res = LocalPackageRepositoryFactory.Create().GetPackages(Properties.Settings.Default.sourcePath).Where(p => p.HasDifferentVersion).ToList();
+                    res.ForEach(x => x.LoadPackageInfos());
+                    return res;
+                });
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+
+        #endregion
+
+        #region Commands
+
+        private RelayCommand _loadCommand;
+        public RelayCommand LoadCommand
+        {
+            get
+            {
+                if (_loadCommand == null)
+                    _loadCommand = new RelayCommand(LoadPackageItemsAsync);
+                return _loadCommand;
+            }
+        }
+
+        #endregion
     }
 }

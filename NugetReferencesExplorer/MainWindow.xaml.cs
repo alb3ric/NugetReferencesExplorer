@@ -27,9 +27,6 @@ namespace NugetReferencesExplorer
             InitializeComponent();
         }
 
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-            this.DataContext = new ApplicationViewModel();
-        }
+    
     }
 }
