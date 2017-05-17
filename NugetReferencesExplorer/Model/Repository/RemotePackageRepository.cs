@@ -9,6 +9,8 @@ namespace NugetReferencesExplorer.Model.Repository
 {
     internal class RemotePackageRepository : IRemotePackageRepository
     {
+        //TODO : Should load from different URL, use nuget.config to get remote repostory urls
+
         private readonly Lazy<IPackageRepository> _repo = new Lazy<IPackageRepository>(() => PackageRepositoryFactory.Default.CreateRepository(Properties.Settings.Default.officialRepositoryUrl));
 
         public IPackage GetPackage(string packageId)

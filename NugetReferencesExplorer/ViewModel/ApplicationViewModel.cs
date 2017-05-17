@@ -60,18 +60,23 @@ namespace NugetReferencesExplorer.ViewModel
 
         private async void LoadPackageItemsAsync()
         {
+            //ViewModel is busy...
             IsBusy = true;
             try
             {
+                //Load the package Items asynchronically
                 this.PackageItems = await Task.Run(() =>
                 {
+                    //Get the package
                     var res = LocalPackageRepositoryFactory.Create().GetPackages(Properties.Settings.Default.sourcePath).Where(p => p.HasDifferentVersion).ToList();
-                    res.ForEach(x => x.LoadPackageInfos());
+                    //Load the package info from the feed
+                    res.ForEach(x => x.LoadRemotePackageInfos());
                     return res;
                 });
             }
             finally
             {
+                //ViewModel is not busy anymore!
                 IsBusy = false;
             }
         }
