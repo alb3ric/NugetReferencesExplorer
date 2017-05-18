@@ -8,7 +8,6 @@
         xmlns:local="clr-namespace:NugetReferencesExplorer"
         xmlns:views="clr-namespace:NugetReferencesExplorer.View"  
         xmlns:VM="clr-namespace:NugetReferencesExplorer.ViewModel"  
-        xmlns:converters="clr-namespace:NugetReferencesExplorer.Converters"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
         BorderThickness="0" 
@@ -28,15 +27,16 @@
         <VM:ApplicationViewModel />
     </Window.DataContext>
     <Window.Resources>
-        <BooleanToVisibilityConverter x:Key="boolVisibilityConverter" />
-        <converters:InverseBooleanConverter x:Key="inverseBoolConverter" />
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>          
             <RowDefinition />
-            <RowDefinition Height="30"/>
         </Grid.RowDefinitions>
-        <views:NugetPackageView Grid.Row="0" Visibility="{Binding Path=IsBusy,ElementName=busyRing, Converter={StaticResource inverseBoolConverter} }" />
-        <Controls:ProgressRing Grid.Row="0" x:Name="busyRing" Foreground="{DynamicResource AccentColorBrush}" IsActive="True" Visibility="{Binding IsBusy, Converter={StaticResource boolVisibilityConverter}}" />
+        <!-- ToolBar -->
+        
+        <!-- Content -->
+        <views:NugetPackageUC Grid.Row="1" Visibility="{Binding Path=IsBusy, Converter={StaticResource InvertBooleanToVisibilityConverter} }" />
+        <Controls:ProgressRing Grid.Row="1" x:Name="busyRing" Foreground="{DynamicResource AccentColorBrush}" IsActive="True" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
     </Grid>
 </Controls:MetroWindow>

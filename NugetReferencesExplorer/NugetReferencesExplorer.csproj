@@ -95,6 +95,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\BooleanConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Model\Domain\Package.cs" />
     <Compile Include="Model\Repository\ILocalPackageRepository.cs" />
@@ -104,7 +106,10 @@
     <Compile Include="Model\Repository\RemotePackageRepository.cs" />
     <Compile Include="Model\Repository\RemotePackageRepositoryFactory.cs" />
     <Compile Include="ViewModel\ApplicationViewModel.cs" />
-    <Page Include="View\NugetPackageView.xaml">
+    <Compile Include="View\ToolBarUC.xaml.cs">
+      <DependentUpon>ToolBarUC.xaml</DependentUpon>
+    </Compile>
+    <Page Include="View\NugetPackageUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -116,8 +121,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="View\NugetPackageView.xaml.cs">
-      <DependentUpon>NugetPackageView.xaml</DependentUpon>
+    <Compile Include="View\NugetPackageUC.xaml.cs">
+      <DependentUpon>NugetPackageUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -130,6 +135,10 @@
     <Page Include="Resources\IconsNonShared.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ToolBarUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
