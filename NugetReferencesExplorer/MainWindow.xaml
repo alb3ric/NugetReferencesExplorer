@@ -30,11 +30,13 @@
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>          
+            <RowDefinition Height="50"/>
             <RowDefinition />
         </Grid.RowDefinitions>
         <!-- ToolBar -->
-        
+        <Border BorderThickness="0,0,0,1" BorderBrush="Black">
+            <views:ToolBarUC />
+        </Border>
         <!-- Content -->
         <views:NugetPackageUC Grid.Row="1" Visibility="{Binding Path=IsBusy, Converter={StaticResource InvertBooleanToVisibilityConverter} }" />
         <Controls:ProgressRing Grid.Row="1" x:Name="busyRing" Foreground="{DynamicResource AccentColorBrush}" IsActive="True" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />

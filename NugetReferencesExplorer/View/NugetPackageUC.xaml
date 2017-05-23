@@ -27,11 +27,13 @@
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="1.5*"/>
             </Grid.ColumnDefinitions>
-            <ListView Grid.Column="0" DockPanel.Dock="Left" ItemsSource="{Binding PackageItems, IsAsync=True}" SelectedItem="{Binding SelectedPackage}">
+            <ListView BorderThickness="0" Grid.Column="0" DockPanel.Dock="Left" ItemsSource="{Binding PackageItems, IsAsync=True}" SelectedItem="{Binding SelectedPackage}">
             </ListView>
-            <DataGrid Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding SelectedPackage.Projects}"/>
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch"  />
+            <DataGrid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding SelectedPackage.Projects}"/>
         </Grid>
     </Grid>
 </UserControl>

@@ -61,6 +61,9 @@ namespace NugetReferencesExplorer.ViewModel
 
         private async void LoadPackageItemsAsync()
         {
+            if (IsBusy)
+                return;
+
             //ViewModel is busy...
             IsBusy = true;
             try
@@ -92,13 +95,14 @@ namespace NugetReferencesExplorer.ViewModel
 
         #region Commands
 
+
         private RelayCommand _loadCommand;
         public RelayCommand LoadCommand
         {
             get
             {
                 if (_loadCommand == null)
-                    _loadCommand = new RelayCommand(LoadPackageItemsAsync);
+                    _loadCommand = new RelayCommand(LoadPackageItemsAsync, () => !IsBusy);
                 return _loadCommand;
             }
         }
