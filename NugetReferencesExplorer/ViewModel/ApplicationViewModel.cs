@@ -56,7 +56,6 @@ namespace NugetReferencesExplorer.ViewModel
             }
         }
 
-        private string _pathToScan;
         public string PathToScan
         {
             get => Properties.Settings.Default.sourcePath;
