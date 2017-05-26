@@ -9,5 +9,10 @@
              >
     <StackPanel Orientation="Horizontal">
         <Button Style="{DynamicResource MetroCircleButtonStyle}" Content="{iconPacks:PackIconMaterial Refresh}" Command="{Binding LoadCommand}" Width="48" Height="48"/>
+        <TextBlock Margin="5,0" Text="{Binding PathToScan}"  VerticalAlignment="Center" FontSize="14" Style="{DynamicResource HoverUnderlineStyle}" >
+            <TextBlock.InputBindings>
+                <MouseBinding Command="{Binding OpenSourcePathCommand}" MouseAction="LeftClick" />
+            </TextBlock.InputBindings>
+        </TextBlock>
     </StackPanel>
 </UserControl>

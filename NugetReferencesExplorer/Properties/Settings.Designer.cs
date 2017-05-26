@@ -23,12 +23,15 @@ namespace NugetReferencesExplorer.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("c:\\gitlab")]
         public string sourcePath {
             get {
                 return ((string)(this["sourcePath"]));
+            }
+            set {
+                this["sourcePath"] = value;
             }
         }
         

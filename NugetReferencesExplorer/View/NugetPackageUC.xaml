@@ -8,29 +8,16 @@
              mc:Ignorable="d"
              MinHeight="400" MinWidth="800" >
     <Grid>
-        <Grid.Resources>
-            <DataTemplate DataType="{x:Type domain:Package}">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="52" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" Source="{Binding PackageInfos.IconUrl}" Width="48" Height="48" Margin="2" />
-                    <StackPanel Grid.Column="1" Orientation="Vertical">
-                        <TextBlock Text="{Binding Id}" FontWeight="Bold" FontSize="16" />
-                        <TextBlock Text="{Binding PackageInfos.Authors}" />
-                        <TextBlock Text="{Binding LastVersion}" />
-                    </StackPanel>
-                </Grid>
-            </DataTemplate>
-        </Grid.Resources>
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="1.5*"/>
             </Grid.ColumnDefinitions>
-            <ListView BorderThickness="0" Grid.Column="0" DockPanel.Dock="Left" ItemsSource="{Binding PackageItems, IsAsync=True}" SelectedItem="{Binding SelectedPackage}">
+            <ListView BorderThickness="0" Grid.Column="0" DockPanel.Dock="Left" 
+                      ItemsSource="{Binding PackageItems, IsAsync=True}" 
+                      ItemTemplate="{DynamicResource dtPackageListItem}" 
+                      SelectedItem="{Binding SelectedPackage}">
             </ListView>
             <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch"  />
             <DataGrid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding SelectedPackage.Projects}"/>

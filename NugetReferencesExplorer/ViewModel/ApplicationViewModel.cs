@@ -5,6 +5,7 @@ using NugetReferencesExplorer.Model.Repository;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,6 +56,20 @@ namespace NugetReferencesExplorer.ViewModel
             }
         }
 
+        private string _pathToScan;
+        public string PathToScan
+        {
+            get => Properties.Settings.Default.sourcePath;
+            set
+            {
+                if (Properties.Settings.Default.sourcePath != value)
+                {
+                    Properties.Settings.Default.sourcePath = value;
+                    this.RaisePropertyChanged(nameof(this.PathToScan));
+                }
+            }
+        }
+
         #endregion
 
         #region Private Methods
@@ -72,7 +87,7 @@ namespace NugetReferencesExplorer.ViewModel
                 this.PackageItems = await Task.Run(() =>
                 {
                     //Get the package
-                    var res = LocalPackageRepositoryFactory.Create().GetPackages(Properties.Settings.Default.sourcePath).Where(p => p.HasDifferentVersion).ToList();
+                    var res = LocalPackageRepositoryFactory.Create().GetPackages(this.PathToScan).Where(p => p.HasDifferentVersion).ToList();
                     //Load the package info from the feed
                     res.ForEach(x => x.LoadRemotePackageInfos());
                     return res;
@@ -106,6 +121,19 @@ namespace NugetReferencesExplorer.ViewModel
                 return _loadCommand;
             }
         }
+
+        private RelayCommand _openSourcePathCommand;
+        public RelayCommand OpenSourcePathCommand
+        {
+            get
+            {
+                if (_openSourcePathCommand == null)
+                    _openSourcePathCommand = new RelayCommand(() => Process.Start(this.PathToScan));
+                return _openSourcePathCommand;
+            }
+        }
+
+        
 
         #endregion
     }
