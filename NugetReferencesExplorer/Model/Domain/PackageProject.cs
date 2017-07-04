@@ -9,8 +9,15 @@ namespace NugetReferencesExplorer.Model.Domain
 {
     public class PackageProject
     {
-        public string Id { get; set; }
-        public SemanticVersion Version { get; set; }
+        public PackageProject(PackageReference packageReference)
+        {
+            _packageReference = packageReference;
+        }
+
+        private readonly PackageReference _packageReference;
+
+        public string Id => _packageReference.Id;
+        public SemanticVersion Version => _packageReference.Version;
         public string Path { get; set; }
     }
 }

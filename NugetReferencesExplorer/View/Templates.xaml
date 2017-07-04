@@ -12,7 +12,6 @@
             <StackPanel Grid.Column="1" Orientation="Vertical">
                 <TextBlock Text="{Binding Id}" FontWeight="Bold" FontSize="16" />
                 <TextBlock Text="{Binding PackageInfos.Authors}" />
-                <TextBlock Text="{Binding LastVersion}" />
             </StackPanel>
         </Grid>
     </DataTemplate>

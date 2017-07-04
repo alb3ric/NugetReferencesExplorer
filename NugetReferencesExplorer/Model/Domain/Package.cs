@@ -10,18 +10,16 @@ namespace NugetReferencesExplorer.Model.Domain
 {
     public class Package
     {
-        public Package(PackageReference packageReference, Func<string, IPackage> getRemotePackageFunc)
+        public Package(string packageId, Func<string, IPackage> getRemotePackageFunc)
         {
-            _packageRef = packageReference;
+            _id = packageId;
             _getRemotePackageFunc = getRemotePackageFunc;
         }
 
-        private readonly PackageReference _packageRef;
+        private readonly string _id;
         private readonly Func<string, IPackage> _getRemotePackageFunc;
 
-        public string Id => _packageRef.Id;
-
-        public SemanticVersion LastVersion => _packageRef.Version;
+        public string Id => _id;
 
         public List<PackageProject> Projects { get; } = new List<PackageProject>();
 
