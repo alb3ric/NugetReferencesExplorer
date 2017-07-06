@@ -6,31 +6,39 @@
              xmlns:local="clr-namespace:NugetReferencesExplorer.View"
              xmlns:domain="clr-namespace:NugetReferencesExplorer.Model.Domain"             
              mc:Ignorable="d"
-             MinHeight="400" MinWidth="800" >
+             MinHeight="200" MinWidth="600">
     <Grid>
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"></RowDefinition>
+                <RowDefinition></RowDefinition>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="1.5*"/>
             </Grid.ColumnDefinitions>
-            <ListView BorderThickness="0" Grid.Column="0" DockPanel.Dock="Left" 
-                      ItemsSource="{Binding PackageItems, IsAsync=True}" 
-                      ItemTemplate="{DynamicResource dtPackageListItem}" 
-                      SelectedItem="{Binding SelectedPackage}"
-                      >
-            </ListView>
-            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch"  />
+            <Border BorderThickness="1">
+                <CheckBox Margin="5,0" IsChecked="{Binding DisplayWithDifferentVersionOnly}">Display with different version only</CheckBox>
+            </Border>
+            <ListBox BorderThickness="0" Grid.Column="0" DockPanel.Dock="Left" 
+                            ItemsSource="{Binding PackageItems, IsAsync=True}" 
+                            ItemTemplate="{DynamicResource dtPackageListItem}" 
+                            SelectedItem="{Binding SelectedPackage}"
+                            Grid.Row="2">
+            </ListBox>
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Grid.RowSpan="2" />
             <DataGrid Grid.Column="2" 
                       HorizontalAlignment="Stretch" 
                       VerticalAlignment="Stretch" 
                       ItemsSource="{Binding SelectedPackage.Projects}"
                       AutoGenerateColumns="False"
+                      Grid.RowSpan="2"
                       >
                 <DataGrid.Columns>
                     <DataGridCheckBoxColumn Binding="{Binding IsChecked, Mode=TwoWay}" />
                     <DataGridTextColumn Header="Version" Binding="{Binding Version, Mode=OneWay}" />
-                    <DataGridTextColumn Header="Package Directory" Binding="{Binding PackageDirectory, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Package Directory" Binding="{Binding PackageDirectory, Mode=OneWay}" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

@@ -19,5 +19,10 @@ namespace NugetReferencesExplorer.Model.Repository
             IVersionSpec v = new VersionSpec();
             return _repo.Value.FindPackage(packageId, v, false, false);
         }
+
+        public void Preload()
+        {
+            _repo.Value.Exists("AutoMapper");
+        }
     }
 }

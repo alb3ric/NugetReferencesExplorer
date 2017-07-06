@@ -31,6 +31,17 @@ namespace NugetReferencesExplorer.ViewModel
 
         #region Properties
 
+        private bool _displayWithDifferentVersionOnly = true;
+        public bool DisplayWithDifferentVersionOnly
+        {
+            get => _displayWithDifferentVersionOnly;
+            set
+            {
+                _displayWithDifferentVersionOnly = value;
+                this.RaisePropertyChanged(nameof(DisplayWithDifferentVersionOnly));
+                this.RaisePropertyChanged(nameof(PackageItems));
+            }
+        }
 
         private bool _isBusy = false;
         public bool IsBusy
@@ -50,7 +61,13 @@ namespace NugetReferencesExplorer.ViewModel
         private IEnumerable<Package> _packageItems;
         public IEnumerable<Package> PackageItems
         {
-            get => _packageItems;
+            get
+            {
+                if (this.DisplayWithDifferentVersionOnly)
+                    return _packageItems.Where(x => x.HasDifferentVersion);
+                else
+                    return _packageItems;
+            }
             set
             {
                 _packageItems = value;
@@ -104,8 +121,9 @@ namespace NugetReferencesExplorer.ViewModel
                 {
                     //Get the package
                     var res = LocalPackageRepositoryFactory.Create().GetPackages(this.PathToScan).OrderBy(x => x.Id).ToList();
-                    //Load the package info from the feed
-                    //res.ForEach(x => x.LoadRemotePackageInfos());
+                    //Load the rest asynchronously
+                    Task.Run(() => res.ForEach(x => x.LoadRemotePackageInfos()));
+
                     return res;
                 });
             }

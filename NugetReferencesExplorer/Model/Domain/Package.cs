@@ -31,12 +31,14 @@ namespace NugetReferencesExplorer.Model.Domain
             }
         }
 
+        private bool _isRemotelyLoaded = false;
+
         private IPackage _packageInfos;
         public IPackage PackageInfos
         {
             get
             {
-                if (_packageInfos == null)
+                if (!_isRemotelyLoaded)
                 {
                     this.LoadRemotePackageInfos();
                 }                
@@ -50,7 +52,8 @@ namespace NugetReferencesExplorer.Model.Domain
 
         public void LoadRemotePackageInfos()
         {
-            this.PackageInfos = _getRemotePackageFunc(this.Id);
+            this._packageInfos = _getRemotePackageFunc(this.Id);
+            _isRemotelyLoaded = true;
         }
     }
 }

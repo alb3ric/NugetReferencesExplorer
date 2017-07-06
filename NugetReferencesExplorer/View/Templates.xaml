@@ -3,6 +3,7 @@
                     xmlns:local="clr-namespace:NugetReferencesExplorer.View"
                     xmlns:domain="clr-namespace:NugetReferencesExplorer.Model.Domain" >
     <DataTemplate DataType="{x:Type domain:Package}" x:Key="dtPackageListItem">
+        <!--<VirtualizingStackPanel>-->
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="52" />
@@ -15,6 +16,7 @@
                 <TextBlock Text="{Binding PackageInfos.Version}" />
             </StackPanel>
         </Grid>
+        <!--</VirtualizingStackPanel>-->
         <DataTemplate.Triggers>
             <DataTrigger 
                 Binding="{Binding Path=HasDifferentVersion}" 

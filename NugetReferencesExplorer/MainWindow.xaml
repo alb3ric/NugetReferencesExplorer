@@ -16,7 +16,7 @@
 
         WindowTransitionsEnabled="False"
         WindowStartupLocation="CenterScreen"
-        Title="Nuget References Explorer" Height="400" Width="900" >
+        Title="Nuget References Explorer" Height="400" Width="900" MinHeight="400" MinWidth="900">
 
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Loaded">

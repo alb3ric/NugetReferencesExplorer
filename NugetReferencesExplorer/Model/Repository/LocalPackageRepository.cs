@@ -23,7 +23,8 @@ namespace NugetReferencesExplorer.Model.Repository
 
             //Create the remote repository
             IRemotePackageRepository remoteRepository = RemotePackageRepositoryFactory.Create();
-            
+            remoteRepository.Preload();
+
             foreach (var fileName in files)
             {
                 //For each file load the package reference file
