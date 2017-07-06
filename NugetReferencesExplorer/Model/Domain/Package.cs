@@ -10,18 +10,16 @@ namespace NugetReferencesExplorer.Model.Domain
 {
     public class Package
     {
-        public Package(PackageReference packageReference, Func<string, IPackage> getRemotePackageFunc)
+        public Package(string packageId, Func<string, IPackage> getRemotePackageFunc)
         {
-            _packageRef = packageReference;
+            _id = packageId;
             _getRemotePackageFunc = getRemotePackageFunc;
         }
 
-        private readonly PackageReference _packageRef;
+        private readonly string _id;
         private readonly Func<string, IPackage> _getRemotePackageFunc;
 
-        public string Id => _packageRef.Id;
-
-        public SemanticVersion LastVersion => _packageRef.Version;
+        public string Id => _id;
 
         public List<PackageProject> Projects { get; } = new List<PackageProject>();
 
@@ -33,14 +31,16 @@ namespace NugetReferencesExplorer.Model.Domain
             }
         }
 
+        private bool _isRemotelyLoaded = false;
+
         private IPackage _packageInfos;
         public IPackage PackageInfos
         {
             get
             {
-                if (_packageInfos == null)
+                if (!_isRemotelyLoaded)
                 {
-                    this.LoadPackageInfos();
+                    this.LoadRemotePackageInfos();
                 }                
                 return _packageInfos;
             }
@@ -50,9 +50,10 @@ namespace NugetReferencesExplorer.Model.Domain
             }
         }
 
-        public void LoadPackageInfos()
+        public void LoadRemotePackageInfos()
         {
-            this.PackageInfos = _getRemotePackageFunc(this.Id);
+            this._packageInfos = _getRemotePackageFunc(this.Id);
+            _isRemotelyLoaded = true;
         }
     }
 }

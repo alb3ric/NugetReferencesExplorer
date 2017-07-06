@@ -18,9 +18,9 @@ namespace NugetReferencesExplorer.View
     /// <summary>
     /// Logique d'interaction pour NugetPackageView.xaml
     /// </summary>
-    public partial class NugetPackageView : UserControl
+    public partial class NugetPackageUC : UserControl
     {
-        public NugetPackageView()
+        public NugetPackageUC()
         {
             InitializeComponent();
         }

@@ -23,7 +23,8 @@ namespace NugetReferencesExplorer.Model.Repository
 
             //Create the remote repository
             IRemotePackageRepository remoteRepository = RemotePackageRepositoryFactory.Create();
-            
+            remoteRepository.Preload();
+
             foreach (var fileName in files)
             {
                 //For each file load the package reference file
@@ -35,15 +36,13 @@ namespace NugetReferencesExplorer.Model.Repository
                     Package pack;
                     if (!res.TryGetValue(packageReference.Id, out pack))
                     {
-                        pack = new Package(packageReference, remoteRepository.GetPackage);
+                        pack = new Package(packageReference.Id, remoteRepository.GetPackage);
                         res.Add(pack.Id, pack);
                     }
                     //Create the package project
-                    PackageProject project = new PackageProject()
+                    PackageProject project = new PackageProject(packageReference)
                     {
-                        Id = packageReference.Id,
-                        Version = packageReference.Version,
-                        Path = fileName
+                        PackagePath = fileName
                     };
                     //Add it to the package
                     pack.Projects.Add(project);
