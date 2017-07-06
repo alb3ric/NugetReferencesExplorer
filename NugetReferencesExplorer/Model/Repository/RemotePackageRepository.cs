@@ -14,9 +14,10 @@ namespace NugetReferencesExplorer.Model.Repository
         private readonly Lazy<IPackageRepository> _repo = new Lazy<IPackageRepository>(() => PackageRepositoryFactory.Default.CreateRepository(Properties.Settings.Default.officialRepositoryUrl));
 
         public IPackage GetPackage(string packageId)
-        {            
+        {
             //Connect to the official package repository
-            return _repo.Value.FindPackage(packageId);
+            IVersionSpec v = new VersionSpec();
+            return _repo.Value.FindPackage(packageId, v, false, false);
         }
     }
 }

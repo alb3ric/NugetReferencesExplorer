@@ -9,11 +9,26 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace NugetReferencesExplorer.ViewModel
 {
     public class ApplicationViewModel : ViewModelBase
     {
+
+        #region Private methods
+
+        /// <summary>
+        /// Force refresh commands
+        /// </summary>
+        private void forceRaiseCanExecuteChanged()
+        {
+            //Refresh consolidateCommand
+            this.ConsolidateCommand.RaiseCanExecuteChanged();
+        }
+
+        #endregion
+
         #region Properties
 
 
@@ -27,6 +42,7 @@ namespace NugetReferencesExplorer.ViewModel
                 {
                     _isBusy = value;
                     this.RaisePropertyChanged(nameof(IsBusy));
+                    this.forceRaiseCanExecuteChanged();
                 }
             }
         }
@@ -52,6 +68,7 @@ namespace NugetReferencesExplorer.ViewModel
                 {
                     _selectedPackage = value;
                     this.RaisePropertyChanged(nameof(SelectedPackage));
+                    this.forceRaiseCanExecuteChanged();
                 }
             }
         }
@@ -86,9 +103,9 @@ namespace NugetReferencesExplorer.ViewModel
                 this.PackageItems = await Task.Run(() =>
                 {
                     //Get the package
-                    var res = LocalPackageRepositoryFactory.Create().GetPackages(this.PathToScan).Where(p => p.HasDifferentVersion).ToList();
+                    var res = LocalPackageRepositoryFactory.Create().GetPackages(this.PathToScan).OrderBy(x => x.Id).ToList();
                     //Load the package info from the feed
-                    res.ForEach(x => x.LoadRemotePackageInfos());
+                    //res.ForEach(x => x.LoadRemotePackageInfos());
                     return res;
                 });
             }
@@ -104,6 +121,10 @@ namespace NugetReferencesExplorer.ViewModel
             }
         }
 
+        private void Consolidate()
+        {
+            MessageBox.Show("Not implemented");
+        }
 
         #endregion
 
@@ -118,6 +139,17 @@ namespace NugetReferencesExplorer.ViewModel
                 if (_loadCommand == null)
                     _loadCommand = new RelayCommand(LoadPackageItemsAsync, () => !IsBusy);
                 return _loadCommand;
+            }
+        }
+
+        private RelayCommand _consolidateCommand;
+        public RelayCommand ConsolidateCommand
+        {
+            get
+            {
+                if (_consolidateCommand == null)
+                    _consolidateCommand = new RelayCommand(Consolidate, () => !IsBusy && SelectedPackage != null && SelectedPackage.HasDifferentVersion);
+                return _consolidateCommand;
             }
         }
 

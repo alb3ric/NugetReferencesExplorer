@@ -41,7 +41,7 @@ namespace NugetReferencesExplorer.Model.Repository
                     //Create the package project
                     PackageProject project = new PackageProject(packageReference)
                     {
-                        Path = fileName
+                        PackagePath = fileName
                     };
                     //Add it to the package
                     pack.Projects.Add(project);

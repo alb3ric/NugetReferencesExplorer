@@ -7,12 +7,18 @@
              xmlns:local="clr-namespace:NugetReferencesExplorer.View"
              mc:Ignorable="d" 
              >
-    <StackPanel Orientation="Horizontal">
-        <Button Style="{DynamicResource MetroCircleButtonStyle}" Content="{iconPacks:PackIconMaterial Refresh}" Command="{Binding LoadCommand}" Width="48" Height="48"/>
-        <TextBlock Margin="5,0" Text="{Binding PathToScan}"  VerticalAlignment="Center" FontSize="14" Style="{DynamicResource HoverUnderlineStyle}" >
-            <TextBlock.InputBindings>
-                <MouseBinding Command="{Binding OpenSourcePathCommand}" MouseAction="LeftClick" />
-            </TextBlock.InputBindings>
-        </TextBlock>
-    </StackPanel>
+    <DockPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Width="Auto">
+            <Button Style="{DynamicResource MetroCircleButtonStyle}" Content="{iconPacks:PackIconMaterial Refresh}" Command="{Binding LoadCommand}" Width="48" Height="48"/>
+            <Button Style="{DynamicResource MetroCircleButtonStyle}" Content="{iconPacks:PackIconMaterial Link}" Command="{Binding ConsolidateCommand}" Width="48" Height="48"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right">
+            <TextBlock Margin="2,0" Text="{Binding PathToScan}"  VerticalAlignment="Center" FontSize="14" Style="{DynamicResource HoverUnderlineStyle}" >
+                <TextBlock.InputBindings>
+                    <MouseBinding Command="{Binding OpenSourcePathCommand}" MouseAction="LeftClick" />
+                </TextBlock.InputBindings>
+            </TextBlock>
+            <iconPacks:PackIconMaterial Kind="Folder" VerticalAlignment="Center" Margin="2,0,5,0" />
+        </StackPanel>
+    </DockPanel>
 </UserControl>

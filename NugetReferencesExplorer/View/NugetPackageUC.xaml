@@ -17,10 +17,22 @@
             <ListView BorderThickness="0" Grid.Column="0" DockPanel.Dock="Left" 
                       ItemsSource="{Binding PackageItems, IsAsync=True}" 
                       ItemTemplate="{DynamicResource dtPackageListItem}" 
-                      SelectedItem="{Binding SelectedPackage}">
+                      SelectedItem="{Binding SelectedPackage}"
+                      >
             </ListView>
             <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch"  />
-            <DataGrid Grid.Column="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" ItemsSource="{Binding SelectedPackage.Projects}"/>
+            <DataGrid Grid.Column="2" 
+                      HorizontalAlignment="Stretch" 
+                      VerticalAlignment="Stretch" 
+                      ItemsSource="{Binding SelectedPackage.Projects}"
+                      AutoGenerateColumns="False"
+                      >
+                <DataGrid.Columns>
+                    <DataGridCheckBoxColumn Binding="{Binding IsChecked, Mode=TwoWay}" />
+                    <DataGridTextColumn Header="Version" Binding="{Binding Version, Mode=OneWay}" />
+                    <DataGridTextColumn Header="Package Directory" Binding="{Binding PackageDirectory, Mode=OneWay}" />
+                </DataGrid.Columns>
+            </DataGrid>
         </Grid>
     </Grid>
 </UserControl>

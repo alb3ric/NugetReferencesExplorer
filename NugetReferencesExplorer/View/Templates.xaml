@@ -10,9 +10,18 @@
             </Grid.ColumnDefinitions>
             <Image Grid.Column="0" Source="{Binding PackageInfos.IconUrl}" Width="48" Height="48" Margin="2" />
             <StackPanel Grid.Column="1" Orientation="Vertical">
-                <TextBlock Text="{Binding Id}" FontWeight="Bold" FontSize="16" />
+                <TextBlock Name="txtLabel" Text="{Binding Id}" FontWeight="Bold" FontSize="16" />
                 <TextBlock Text="{Binding PackageInfos.Authors}" />
+                <TextBlock Text="{Binding PackageInfos.Version}" />
             </StackPanel>
         </Grid>
+        <DataTemplate.Triggers>
+            <DataTrigger 
+                Binding="{Binding Path=HasDifferentVersion}" 
+                Value="True">
+                <Setter Property="Foreground" TargetName="txtLabel" Value="Red">
+                </Setter>
+            </DataTrigger>
+        </DataTemplate.Triggers>
     </DataTemplate>
 </ResourceDictionary>
