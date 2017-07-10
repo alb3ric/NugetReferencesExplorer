@@ -55,5 +55,13 @@ namespace NugetReferencesExplorer.Model.Domain
             this._packageInfos = _getRemotePackageFunc(this.Id);
             _isRemotelyLoaded = true;
         }
+
+        public void ConsolidateSelected(SemanticVersion version)
+        {
+            foreach (var p in this.Projects.Where(p => p.IsChecked))
+            {
+                p.SetVersion(version);
+            }
+        }
     }
 }

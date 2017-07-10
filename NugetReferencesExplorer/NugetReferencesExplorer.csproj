@@ -110,10 +110,20 @@
     <Compile Include="Model\Repository\RemotePackageRepository.cs" />
     <Compile Include="Model\Repository\RemotePackageRepositoryFactory.cs" />
     <Compile Include="ViewModel\ApplicationViewModel.cs" />
+    <Compile Include="ViewModel\ConsolidateViewModel.cs" />
+    <Compile Include="ViewModel\IWindowService.cs" />
+    <Compile Include="View\ConsolidateUC.xaml.cs">
+      <DependentUpon>ConsolidateUC.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\ToolBarUC.xaml.cs">
       <DependentUpon>ToolBarUC.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewModel\WindowService.cs" />
     <Page Include="Themes\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ConsolidateUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

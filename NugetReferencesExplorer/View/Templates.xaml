@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:NugetReferencesExplorer.View"
+                    xmlns:VM="clr-namespace:NugetReferencesExplorer.ViewModel"
                     xmlns:domain="clr-namespace:NugetReferencesExplorer.Model.Domain" >
     <DataTemplate DataType="{x:Type domain:Package}" x:Key="dtPackageListItem">
         <!--<VirtualizingStackPanel>-->
@@ -25,5 +26,8 @@
                 </Setter>
             </DataTrigger>
         </DataTemplate.Triggers>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type VM:ConsolidateViewModel}">
+        <local:ConsolidateUC />
     </DataTemplate>
 </ResourceDictionary>

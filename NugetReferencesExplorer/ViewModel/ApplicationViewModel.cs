@@ -16,6 +16,8 @@ namespace NugetReferencesExplorer.ViewModel
     public class ApplicationViewModel : ViewModelBase
     {
 
+        private readonly IWindowService _windowService = new WindowService();
+
         #region Private methods
 
         /// <summary>
@@ -141,7 +143,8 @@ namespace NugetReferencesExplorer.ViewModel
 
         private void Consolidate()
         {
-            MessageBox.Show("Not implemented");
+            //Show window to consolidate
+            _windowService.ShowDialogWindow(new ConsolidateViewModel(this.SelectedPackage));
         }
 
         #endregion
