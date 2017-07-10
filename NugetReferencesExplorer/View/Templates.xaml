@@ -20,10 +20,9 @@
         <!--</VirtualizingStackPanel>-->
         <DataTemplate.Triggers>
             <DataTrigger 
-                Binding="{Binding Path=HasDifferentVersion}" 
-                Value="True">
-                <Setter Property="Foreground" TargetName="txtLabel" Value="Red">
-                </Setter>
+                Binding="{Binding Path=HasDifferentVersion}" Value="False">
+                <Setter Property="Foreground" TargetName="txtLabel" Value="{DynamicResource IdealForegroundDisabledBrush}"/>
+                <Setter Property="FontStyle" TargetName="txtLabel" Value="Italic"/>
             </DataTrigger>
         </DataTemplate.Triggers>
     </DataTemplate>
