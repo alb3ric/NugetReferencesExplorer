@@ -1,10 +1,10 @@
 ﻿using NuGet;
+using NugetReferencesExplorer.Model.Domain;
 
 namespace NugetReferencesExplorer.Model.Repository
 {
     public interface IRemotePackageRepository
     {
-        IPackage GetPackage(string packageId);
-        void Preload();
+        RemotePackage GetPackage(string packageId);
     }
 }

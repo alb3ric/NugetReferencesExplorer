@@ -1,5 +1,7 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using NuGet;
+using NugetReferencesExplorer.Model.BusinessLogic;
 using NugetReferencesExplorer.Model.Domain;
 using NugetReferencesExplorer.Model.Repository;
 using System;
@@ -17,6 +19,8 @@ namespace NugetReferencesExplorer.ViewModel
     {
 
         private readonly IWindowService _windowService = new WindowService();
+        private readonly LocalPackageManager _packageManager = new LocalPackageManager();
+
 
         #region Private methods
 
@@ -119,15 +123,7 @@ namespace NugetReferencesExplorer.ViewModel
             try
             {
                 //Load the package Items asynchronically
-                this.PackageItems = await Task.Run(() =>
-                {
-                    //Get the package
-                    var res = LocalPackageRepositoryFactory.Create().GetPackages(this.PathToScan).OrderBy(x => x.Id).ToList();
-                    //Load the rest asynchronously
-                    Task.Run(() => res.ForEach(x => x.LoadRemotePackageInfos()));
-
-                    return res;
-                });
+                this.PackageItems = await Task.Run(() => _packageManager.LoadPackages(this.PathToScan));                
             }
             catch (Exception ex)
             {

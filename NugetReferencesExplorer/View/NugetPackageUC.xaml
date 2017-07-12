@@ -7,6 +7,11 @@
              xmlns:domain="clr-namespace:NugetReferencesExplorer.Model.Domain"             
              mc:Ignorable="d"
              MinHeight="200" MinWidth="600">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type DataGridRow}">
+            <Setter Property="IsSelected" Value="{Binding IsChecked, Mode=TwoWay}" />
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" >
             <Grid.RowDefinitions>
@@ -38,7 +43,7 @@
                 <DataGrid.Columns>
                     <DataGridCheckBoxColumn Binding="{Binding IsChecked, Mode=TwoWay}" />
                     <DataGridTextColumn Header="Version" Binding="{Binding Version, Mode=OneWay}" />
-                    <DataGridTextColumn Header="Package Directory" Binding="{Binding PackageDirectory, Mode=OneWay}" Width="*" />
+                    <DataGridTextColumn Header="Package Directory" Binding="{Binding DisplayablePath, Mode=OneWay}" Width="*" />
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

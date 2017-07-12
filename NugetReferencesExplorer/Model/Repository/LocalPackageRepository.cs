@@ -12,7 +12,7 @@ namespace NugetReferencesExplorer.Model.Repository
     internal class LocalPackageRepository : ILocalPackageRepository
     {
 
-        public IList<Package> GetPackages(string path)
+        public IList<Package> LoadPackages(string path)
         {
             if (!Directory.Exists(path))
                 throw new DirectoryNotFoundException();
@@ -20,11 +20,6 @@ namespace NugetReferencesExplorer.Model.Repository
             Dictionary<string, Package> res = new Dictionary<string, Package>();
             //Retrieve all the files in the specified path
             string[] files = Directory.GetFiles(path, Properties.Settings.Default.defaultPackageConfigFilename, SearchOption.AllDirectories);
-
-            //Create the remote repository
-            IRemotePackageRepository remoteRepository = RemotePackageRepositoryFactory.Create();
-            remoteRepository.Preload();
-
             foreach (var fileName in files)
             {
                 //For each file load the package reference file
@@ -36,13 +31,13 @@ namespace NugetReferencesExplorer.Model.Repository
                     Package pack;
                     if (!res.TryGetValue(packageReference.Id, out pack))
                     {
-                        pack = new Package(packageReference.Id, remoteRepository.GetPackage);
+                        pack = new Package(packageReference.Id);                        
                         res.Add(pack.Id, pack);
                     }
                     //Create the package project
                     PackageProject project = new PackageProject(packageReference)
                     {
-                        PackagePath = fileName
+                        ProjectPath = Path.GetDirectoryName(fileName)
                     };
                     //Add it to the package
                     pack.Projects.Add(project);

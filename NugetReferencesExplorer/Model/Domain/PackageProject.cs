@@ -19,19 +19,15 @@ namespace NugetReferencesExplorer.Model.Domain
 
         private readonly PackageReference _packageReference;
 
-        public string Id => _packageReference.Id;
+        public string PackageId => _packageReference.Id;
         public SemanticVersion Version => _packageReference.Version;
 
-        public string PackagePath { get; set; }
+        public string ProjectPath { get; set; }
 
         public bool IsChecked { get; set; }
 
-        public string PackageDirectory
-            => Path.GetDirectoryName(this.PackagePath).Replace(Properties.Settings.Default.sourcePath, "");
+        public string DisplayablePath
+            => Path.GetDirectoryName(this.ProjectPath).Replace(Properties.Settings.Default.sourcePath, "");
 
-        public void SetVersion(SemanticVersion version)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

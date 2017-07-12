@@ -103,12 +103,14 @@
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
     <Compile Include="Model\Domain\Package.cs" />
+    <Compile Include="Model\Domain\RemotePackage.cs" />
     <Compile Include="Model\Repository\ILocalPackageRepository.cs" />
     <Compile Include="Model\Repository\IRemotePackageRepository.cs" />
     <Compile Include="Model\Repository\LocalPackageRepository.cs" />
     <Compile Include="Model\Repository\LocalPackageRepositoryFactory.cs" />
     <Compile Include="Model\Repository\RemotePackageRepository.cs" />
     <Compile Include="Model\Repository\RemotePackageRepositoryFactory.cs" />
+    <Compile Include="Model\BusinessLogic\LocalPackageManager.cs" />
     <Compile Include="ViewModel\ApplicationViewModel.cs" />
     <Compile Include="ViewModel\ConsolidateViewModel.cs" />
     <Compile Include="ViewModel\IWindowService.cs" />

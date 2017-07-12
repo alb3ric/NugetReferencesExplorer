@@ -1,4 +1,5 @@
 ﻿using NuGet;
+using NugetReferencesExplorer.Model.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,16 +14,13 @@ namespace NugetReferencesExplorer.Model.Repository
 
         private readonly Lazy<IPackageRepository> _repo = new Lazy<IPackageRepository>(() => PackageRepositoryFactory.Default.CreateRepository(Properties.Settings.Default.officialRepositoryUrl));
 
-        public IPackage GetPackage(string packageId)
+        public RemotePackage GetPackage(string packageId)
         {
             //Connect to the official package repository
             IVersionSpec v = new VersionSpec();
-            return _repo.Value.FindPackage(packageId, v, false, false);
+            IPackage p = _repo.Value.FindPackage(packageId, v, false, false);
+            return new RemotePackage(p, _repo.Value);
         }
-
-        public void Preload()
-        {
-            _repo.Value.Exists("AutoMapper");
-        }
+        
     }
 }

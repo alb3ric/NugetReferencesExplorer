@@ -10,14 +10,12 @@ namespace NugetReferencesExplorer.Model.Domain
 {
     public class Package
     {
-        public Package(string packageId, Func<string, IPackage> getRemotePackageFunc)
+        public Package(string packageId)
         {
             _id = packageId;
-            _getRemotePackageFunc = getRemotePackageFunc;
         }
 
         private readonly string _id;
-        private readonly Func<string, IPackage> _getRemotePackageFunc;
 
         public string Id => _id;
 
@@ -31,37 +29,15 @@ namespace NugetReferencesExplorer.Model.Domain
             }
         }
 
-        private bool _isRemotelyLoaded = false;
+        public RemotePackage RemotePackage { get; set; }
 
-        private IPackage _packageInfos;
         public IPackage PackageInfos
         {
             get
-            {
-                if (!_isRemotelyLoaded)
-                {
-                    this.LoadRemotePackageInfos();
-                }                
-                return _packageInfos;
-            }
-            private set
-            {
-                _packageInfos = value;
+            {                           
+                return RemotePackage?.Package;
             }
         }
 
-        public void LoadRemotePackageInfos()
-        {
-            this._packageInfos = _getRemotePackageFunc(this.Id);
-            _isRemotelyLoaded = true;
-        }
-
-        public void ConsolidateSelected(SemanticVersion version)
-        {
-            foreach (var p in this.Projects.Where(p => p.IsChecked))
-            {
-                p.SetVersion(version);
-            }
-        }
     }
 }
