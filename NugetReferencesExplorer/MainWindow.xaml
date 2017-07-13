@@ -38,7 +38,7 @@
             <views:ToolBarUC HorizontalContentAlignment="Stretch" />
         </Border>
         <!-- Content -->
-        <views:NugetPackageUC Grid.Row="1" Visibility="{Binding Path=IsBusy, Converter={StaticResource InvertBooleanToVisibilityConverter} }" />
+        <views:ExplorerUC Grid.Row="1" Visibility="{Binding Path=IsBusy, Converter={StaticResource InvertBooleanToVisibilityConverter} }" />
         <Controls:ProgressRing Grid.Row="1" x:Name="busyRing" Foreground="{DynamicResource AccentColorBrush}" IsActive="True" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}" />
 
     </Grid>

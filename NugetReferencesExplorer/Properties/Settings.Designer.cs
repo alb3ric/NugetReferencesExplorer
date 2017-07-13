@@ -50,13 +50,16 @@ namespace NugetReferencesExplorer.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("https://packages.nuget.org/api/v2")]
-        public string officialRepositoryUrl {
+        public string nugetRepositorySources
+        {
             get {
-                return ((string)(this["officialRepositoryUrl"]));
+                return ((string)(this["nugetRepositorySources"]));
             }
             set {
-                this["officialRepositoryUrl"] = value;
+                this["nugetRepositorySources"] = value;
             }
         }
+
+       
     }
 }

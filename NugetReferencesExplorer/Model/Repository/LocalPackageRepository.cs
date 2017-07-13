@@ -14,10 +14,11 @@ namespace NugetReferencesExplorer.Model.Repository
 
         public IList<Package> LoadPackages(string path)
         {
+            Dictionary<string, Package> res = new Dictionary<string, Package>();
+
             if (!Directory.Exists(path))
                 throw new DirectoryNotFoundException();
 
-            Dictionary<string, Package> res = new Dictionary<string, Package>();
             //Retrieve all the files in the specified path
             string[] files = Directory.GetFiles(path, Properties.Settings.Default.defaultPackageConfigFilename, SearchOption.AllDirectories);
             foreach (var fileName in files)
@@ -31,7 +32,7 @@ namespace NugetReferencesExplorer.Model.Repository
                     Package pack;
                     if (!res.TryGetValue(packageReference.Id, out pack))
                     {
-                        pack = new Package(packageReference.Id);                        
+                        pack = new Package(packageReference.Id);
                         res.Add(pack.Id, pack);
                     }
                     //Create the package project

@@ -29,15 +29,7 @@ namespace NugetReferencesExplorer.Model.Domain
             }
         }
 
-        public RemotePackage RemotePackage { get; set; }
-
-        public IPackage PackageInfos
-        {
-            get
-            {                           
-                return RemotePackage?.Package;
-            }
-        }
+        public PackageMetdata Metadata { get; set; }
 
     }
 }

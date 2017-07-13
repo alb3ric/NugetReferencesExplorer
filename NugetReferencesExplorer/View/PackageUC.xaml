@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="NugetReferencesExplorer.View.PackageUC"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:local="clr-namespace:NugetReferencesExplorer.View"
+             xmlns:localcomp="clr-namespace:NugetReferencesExplorer.View.Components"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <DataGrid Grid.Row="1" HorizontalAlignment="Stretch" 
+                      VerticalAlignment="Stretch" 
+                      ItemsSource="{Binding Projects}"
+                      AutoGenerateColumns="False"
+                  Name="myDataGrid"
+                      >
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Version" Binding="{Binding Version, Mode=OneWay}" />
+                <DataGridTextColumn Header="Package Directory" Binding="{Binding DisplayablePath, Mode=OneWay}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="5,5,20,5">
+            <Button Command="{Binding ConsolidateCommand}" CommandParameter="{Binding ElementName=myDataGrid, Path=SelectedItems}" Height="30" Visibility="{Binding Path=HasDifferentVersion, Converter={StaticResource BooleanToVisibilityConverter} }">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock>Consolidate</TextBlock>
+                    <iconPacks:PackIconMaterial Kind="Link" Margin="5,0" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

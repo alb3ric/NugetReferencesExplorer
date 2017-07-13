@@ -6,25 +6,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NugetReferencesExplorer.Model.BusinessLogic
+namespace NugetReferencesExplorer.Model.BusinessServices
 {
-    public class LocalPackageManager
+    public class PackageService
     {
-        public LocalPackageManager()
+        public PackageService()
         {
-
+            _localRepository = LocalPackageRepositoryFactory.Create();
         }
 
-        public IEnumerable<Package> LoadPackages(string path)
+        private readonly ILocalPackageRepository _localRepository; 
+
+        public IEnumerable<Package> LoadPackages(string path, IEnumerable<string> sources)
         {
             //Load the packages
-            var res = LocalPackageRepositoryFactory.Create().LoadPackages(path).OrderBy(x => x.Id).ToList();
-            //Init the repository
-            IRemotePackageRepository remotePackageRepository = RemotePackageRepositoryFactory.Create();
+            var packages = _localRepository.LoadPackages(path).OrderBy(x => x.Id).ToList();
             //Get the remote package infos
-            res.AsParallel().ForAll(x => x.RemotePackage = remotePackageRepository.GetPackage(x.Id));
+            IRemotePackageRepository remoteRepository = RemotePackageRepositoryFactory.Create(sources);
+            packages.AsParallel().ForAll(x => x.Metadata = remoteRepository.GetPackage(x.Id));
             //Return
-            return res;
+            return packages;
         }
 
         //public void UpdatePackageProject(PackageProject packageProject, SemanticVersion version)

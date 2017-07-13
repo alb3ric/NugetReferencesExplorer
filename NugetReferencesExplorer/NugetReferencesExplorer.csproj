@@ -102,25 +102,31 @@
     <Compile Include="Converters\BooleanConverter.cs" />
     <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\InverseBooleanConverter.cs" />
+    <Compile Include="Helpers\ConfigurationHelper.cs" />
     <Compile Include="Model\Domain\Package.cs" />
-    <Compile Include="Model\Domain\RemotePackage.cs" />
+    <Compile Include="Model\Domain\PackageMetdata.cs" />
     <Compile Include="Model\Repository\ILocalPackageRepository.cs" />
     <Compile Include="Model\Repository\IRemotePackageRepository.cs" />
     <Compile Include="Model\Repository\LocalPackageRepository.cs" />
     <Compile Include="Model\Repository\LocalPackageRepositoryFactory.cs" />
     <Compile Include="Model\Repository\RemotePackageRepository.cs" />
     <Compile Include="Model\Repository\RemotePackageRepositoryFactory.cs" />
-    <Compile Include="Model\BusinessLogic\LocalPackageManager.cs" />
+    <Compile Include="Model\BusinessServices\PackageService.cs" />
     <Compile Include="ViewModel\ApplicationViewModel.cs" />
     <Compile Include="ViewModel\ConsolidateViewModel.cs" />
-    <Compile Include="ViewModel\IWindowService.cs" />
+    <Compile Include="ViewModel\WindowService\IWindowService.cs" />
+    <Compile Include="ViewModel\PackageViewModel.cs" />
+    <Compile Include="View\Components\CustomDataGrid.cs" />
     <Compile Include="View\ConsolidateUC.xaml.cs">
       <DependentUpon>ConsolidateUC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\PackageUC.xaml.cs">
+      <DependentUpon>PackageUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ToolBarUC.xaml.cs">
       <DependentUpon>ToolBarUC.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModel\WindowService.cs" />
+    <Compile Include="ViewModel\WindowService\WindowService.cs" />
     <Page Include="Themes\Styles.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -129,7 +135,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\NugetPackageUC.xaml">
+    <Page Include="View\ExplorerUC.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -141,8 +147,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="View\NugetPackageUC.xaml.cs">
-      <DependentUpon>NugetPackageUC.xaml</DependentUpon>
+    <Compile Include="View\ExplorerUC.xaml.cs">
+      <DependentUpon>ExplorerUC.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -155,6 +161,10 @@
     <Page Include="Resources\IconsNonShared.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\PackageUC.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Templates.xaml">
       <SubType>Designer</SubType>

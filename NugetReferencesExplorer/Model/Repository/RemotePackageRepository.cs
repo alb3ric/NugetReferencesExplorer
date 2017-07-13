@@ -1,6 +1,7 @@
 ﻿using NuGet;
 using NugetReferencesExplorer.Model.Domain;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,16 +11,34 @@ namespace NugetReferencesExplorer.Model.Repository
 {
     internal class RemotePackageRepository : IRemotePackageRepository
     {
-        //TODO : Should load from different URL, use nuget.config to get remote repostory urls
-
-        private readonly Lazy<IPackageRepository> _repo = new Lazy<IPackageRepository>(() => PackageRepositoryFactory.Default.CreateRepository(Properties.Settings.Default.officialRepositoryUrl));
-
-        public RemotePackage GetPackage(string packageId)
+        public RemotePackageRepository(IEnumerable<string> sources)
         {
-            //Connect to the official package repository
-            IVersionSpec v = new VersionSpec();
-            IPackage p = _repo.Value.FindPackage(packageId, v, false, false);
-            return new RemotePackage(p, _repo.Value);
+            _sources = sources;
+        }
+
+        private readonly IEnumerable<string> _sources;
+
+        private readonly ConcurrentDictionary<string, NuGet.IPackageRepository> _cacheRepo = new ConcurrentDictionary<string, NuGet.IPackageRepository>(); 
+        private NuGet.IPackageRepository getNugetRepository(string source)
+        {
+            return _cacheRepo.GetOrAdd(source, (s) => NuGet.PackageRepositoryFactory.Default.CreateRepository(source));            
+        }
+
+        public PackageMetdata GetPackage(string packageId)
+        {
+            foreach (var s in _sources)
+            {
+                var repo = getNugetRepository(s);
+                if (repo != null)
+                {
+                    //Connect to the official package repository
+                    IVersionSpec v = new VersionSpec();
+                    IPackage p = repo.FindPackage(packageId, v, false, false);
+                    if (p != null)
+                        return PackageMetdata.Create(p, repo.Source);
+                }
+            }
+            return null;
         }
         
     }

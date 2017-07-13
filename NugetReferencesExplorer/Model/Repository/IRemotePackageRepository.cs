@@ -5,6 +5,6 @@ namespace NugetReferencesExplorer.Model.Repository
 {
     public interface IRemotePackageRepository
     {
-        RemotePackage GetPackage(string packageId);
+        PackageMetdata GetPackage(string packageId);
     }
 }
