@@ -116,7 +116,7 @@
     <Compile Include="ViewModel\ConsolidateViewModel.cs" />
     <Compile Include="ViewModel\WindowService\IWindowService.cs" />
     <Compile Include="ViewModel\PackageViewModel.cs" />
-    <Compile Include="View\Components\CustomDataGrid.cs" />
+    <Compile Include="View\Behaviors\DataGridBehavior.cs" />
     <Compile Include="View\ConsolidateUC.xaml.cs">
       <DependentUpon>ConsolidateUC.xaml</DependentUpon>
     </Compile>

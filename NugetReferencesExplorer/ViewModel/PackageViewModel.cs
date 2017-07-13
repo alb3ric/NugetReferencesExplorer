@@ -54,7 +54,21 @@ namespace NugetReferencesExplorer.ViewModel
                 }
 
             }
-        }       
+        }
+
+        private ObservableCollection<object> _selectedItems = new ObservableCollection<object>();
+        public ObservableCollection<object> SelectedItems
+        {
+            get => this._selectedItems;
+            set
+            {
+               if (this._selectedItems != value)
+                {
+                    this._selectedItems = value;
+                    this.RaisePropertyChanged(nameof(this.SelectedItems));
+                }
+            }
+        }
 
         #endregion
 
@@ -67,7 +81,7 @@ namespace NugetReferencesExplorer.ViewModel
 
         private bool canConsolidate()
         {
-            return this.HasDifferentVersion;
+            return this.SelectedItems.Any();
         }
 
         #endregion
