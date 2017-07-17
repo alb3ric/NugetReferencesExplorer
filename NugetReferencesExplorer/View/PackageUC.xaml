@@ -11,10 +11,11 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
+        <TextBlock Text="{Binding Summary}" TextWrapping="Wrap" Margin="2" />
         <DataGrid Grid.Row="1" HorizontalAlignment="Stretch" 
                       VerticalAlignment="Stretch" 
                       ItemsSource="{Binding Projects}"

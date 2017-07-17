@@ -21,6 +21,7 @@ namespace NugetReferencesExplorer.ViewModel
         }
 
         private readonly Package _package;
+        private readonly IWindowService _windowService = new WindowService();
 
         #region Properties
 
@@ -78,7 +79,7 @@ namespace NugetReferencesExplorer.ViewModel
 
         private void doConsolidate()
         {
-            throw new NotImplementedException();
+            _windowService.ShowDialogWindow(new ConsolidateViewModel(this._package, this.SelectedItems.Cast<PackageProject>()));
         }
 
         private bool canConsolidate()

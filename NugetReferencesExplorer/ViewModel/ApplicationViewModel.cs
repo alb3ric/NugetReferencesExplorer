@@ -17,7 +17,6 @@ namespace NugetReferencesExplorer.ViewModel
     public class ApplicationViewModel : ViewModelBase
     {
 
-        private readonly IWindowService _windowService = new WindowService();
         private readonly PackageService _packageService = new PackageService();
 
 
