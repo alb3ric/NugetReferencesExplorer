@@ -16,6 +16,8 @@ namespace NugetReferencesExplorer.ViewModel
         public PackageViewModel(Package p)
         {
             _package = p;
+            //On SelectedItems change force RaiseCanExecuteChanged
+            this.SelectedItems.CollectionChanged += (sender, e) => this.ConsolidateCommand.RaiseCanExecuteChanged();
         }
 
         private readonly Package _package;
@@ -81,7 +83,8 @@ namespace NugetReferencesExplorer.ViewModel
 
         private bool canConsolidate()
         {
-            return this.SelectedItems.Any();
+            return this.SelectedItems.Count > 1 
+                    && this.SelectedItems.Cast<PackageProject>().Select(x => x.Version).Distinct().Count() > 1;
         }
 
         #endregion

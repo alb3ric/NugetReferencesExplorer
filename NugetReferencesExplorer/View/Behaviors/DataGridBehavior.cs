@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace NugetReferencesExplorer.View.Behaviors
             {
                 BindsTwoWayByDefault = true
             });
-
+        
         public IList<object> SelectedItems
         {
             get
@@ -51,7 +52,10 @@ namespace NugetReferencesExplorer.View.Behaviors
             if (e.AddedItems != null && e.AddedItems.Count > 0 && this.SelectedItems != null)
             {
                 foreach (object obj in e.AddedItems)
+                {
                     this.SelectedItems.Add(obj);
+                    
+                }
             }
 
             if (e.RemovedItems != null && e.RemovedItems.Count > 0 && this.SelectedItems != null)
