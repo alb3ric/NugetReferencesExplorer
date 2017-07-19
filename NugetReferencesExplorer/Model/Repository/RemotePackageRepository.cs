@@ -11,6 +11,8 @@ namespace NugetReferencesExplorer.Model.Repository
 {
     internal class RemotePackageRepository : IRemotePackageRepository
     {
+        protected readonly log4net.ILog _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+
         public RemotePackageRepository()
         {
 
@@ -41,13 +43,21 @@ namespace NugetReferencesExplorer.Model.Repository
 
         public void UpdatePackage(string packageId, string source, string path, string version)
         {
-            //Get the repository
-            var repo = getNugetRepository(source);
-            //Initialize the package manager
-            PackageManager packageManager = new PackageManager(repo, path);
-            //Update the package
-            //packageManager.InstallPackage(packageId, new SemanticVersion(version));
-            packageManager.UpdatePackage(packageId, new SemanticVersion(version), false, false);
+            try
+            {
+                //Get the repository
+                var repo = getNugetRepository(source);
+                //Initialize the package manager
+                PackageManager packageManager = new PackageManager(repo, path);
+                //Update the package
+                //packageManager.InstallPackage(packageId, new SemanticVersion(version));
+                packageManager.UpdatePackage(packageId, new SemanticVersion(version), false, false);
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex);
+                throw ex;
+            }
         }
 
     }
