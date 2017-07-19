@@ -10,7 +10,7 @@
     <DockPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch" Width="Auto">
             <Button Style="{DynamicResource MetroCircleButtonStyle}" Content="{iconPacks:PackIconMaterial Refresh}" Command="{Binding LoadCommand}" Width="48" Height="48"/>
-            <Button Style="{DynamicResource MetroCircleButtonStyle}" Content="{iconPacks:PackIconMaterial Link}" Command="{Binding ConsolidateCommand}" Width="48" Height="48"/>
+            <!--<Button Style="{DynamicResource MetroCircleButtonStyle}" Content="{iconPacks:PackIconMaterial Link}" Command="{Binding SelectedPackage.ConsolidateCommand}" Width="48" Height="48"/>-->
         </StackPanel>
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" HorizontalAlignment="Right">
             <TextBlock Margin="2,0" Text="{Binding PathToScan}"  VerticalAlignment="Center" FontSize="14" Style="{DynamicResource HoverUnderlineStyle}" >

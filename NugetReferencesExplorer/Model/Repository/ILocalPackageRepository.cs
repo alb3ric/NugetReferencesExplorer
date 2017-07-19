@@ -5,6 +5,6 @@ namespace NugetReferencesExplorer.Model.Repository
 {
     public interface ILocalPackageRepository
     {
-        IList<Package> GetPackages(string path);
+        IList<Package> LoadPackages(string path);
     }
 }

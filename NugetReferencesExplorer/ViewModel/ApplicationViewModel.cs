@@ -1,7 +1,8 @@
 ﻿using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using NugetReferencesExplorer.Helpers;
+using NugetReferencesExplorer.Model.BusinessServices;
 using NugetReferencesExplorer.Model.Domain;
-using NugetReferencesExplorer.Model.Repository;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,16 +17,10 @@ namespace NugetReferencesExplorer.ViewModel
     public class ApplicationViewModel : ViewModelBase
     {
 
-        #region Private methods
+        private readonly PackageService _packageService = new PackageService();
 
-        /// <summary>
-        /// Force refresh commands
-        /// </summary>
-        private void forceRaiseCanExecuteChanged()
-        {
-            //Refresh consolidateCommand
-            this.ConsolidateCommand.RaiseCanExecuteChanged();
-        }
+
+        #region Private methods
 
         #endregion
 
@@ -53,18 +48,20 @@ namespace NugetReferencesExplorer.ViewModel
                 {
                     _isBusy = value;
                     this.RaisePropertyChanged(nameof(IsBusy));
-                    this.forceRaiseCanExecuteChanged();
                 }
             }
         }
        
-        private IEnumerable<Package> _packageItems;
-        public IEnumerable<Package> PackageItems
+        private ObservableCollection<PackageViewModel> _packageItems;
+        public ObservableCollection<PackageViewModel> PackageItems
         {
             get
             {
+                if (_packageItems == null)
+                    return null;
+
                 if (this.DisplayWithDifferentVersionOnly)
-                    return _packageItems.Where(x => x.HasDifferentVersion);
+                    return new ObservableCollection<PackageViewModel>(_packageItems.Where(x => x.HasDifferentVersion));
                 else
                     return _packageItems;
             }
@@ -75,8 +72,8 @@ namespace NugetReferencesExplorer.ViewModel
             }
         }
 
-        private Package _selectedPackage;
-        public Package SelectedPackage
+        private PackageViewModel _selectedPackage;
+        public PackageViewModel SelectedPackage
         {
             get => _selectedPackage;            
             set
@@ -85,20 +82,40 @@ namespace NugetReferencesExplorer.ViewModel
                 {
                     _selectedPackage = value;
                     this.RaisePropertyChanged(nameof(SelectedPackage));
-                    this.forceRaiseCanExecuteChanged();
+                    this.RaisePropertyChanged(nameof(HasSelectedPackage));
                 }
             }
         }
 
+        public bool HasSelectedPackage => this.SelectedPackage != null;
+
         public string PathToScan
         {
-            get => Properties.Settings.Default.sourcePath;
+            get => ConfigurationHelper.GetPathToScan();
             set
             {
-                if (Properties.Settings.Default.sourcePath != value)
-                {
-                    Properties.Settings.Default.sourcePath = value;
+                if (ConfigurationHelper.SetPathToScan(value))
                     this.RaisePropertyChanged(nameof(this.PathToScan));
+            }
+        }
+
+        private ObservableCollection<string> _sources;
+        public ObservableCollection<string> Sources
+        {
+            get
+            {
+                if (_sources == null)
+                {
+                    _sources = new ObservableCollection<string>(ConfigurationHelper.GetNugetRepositorySources());
+                }
+                return _sources;
+            }
+            set
+            {
+                if (_sources != value)
+                {
+                    _sources = value;
+                    this.RaisePropertyChanged(nameof(Sources));
                 }
             }
         }
@@ -111,21 +128,17 @@ namespace NugetReferencesExplorer.ViewModel
         {
             if (IsBusy)
                 return;
-
+            this.SelectedPackage = null;
             //ViewModel is busy...
             IsBusy = true;
             try
             {
                 //Load the package Items asynchronically
-                this.PackageItems = await Task.Run(() =>
-                {
-                    //Get the package
-                    var res = LocalPackageRepositoryFactory.Create().GetPackages(this.PathToScan).OrderBy(x => x.Id).ToList();
-                    //Load the rest asynchronously
-                    Task.Run(() => res.ForEach(x => x.LoadRemotePackageInfos()));
-
-                    return res;
-                });
+                this.PackageItems = await Task.Run(
+                                    () => new ObservableCollection<PackageViewModel>(_packageService
+                                                                                .LoadPackages(this.PathToScan, this.Sources)
+                                                                                .Select(x => new PackageViewModel(x)))
+                                                                                );
             }
             catch (Exception ex)
             {
@@ -138,12 +151,7 @@ namespace NugetReferencesExplorer.ViewModel
                 IsBusy = false;
             }
         }
-
-        private void Consolidate()
-        {
-            MessageBox.Show("Not implemented");
-        }
-
+       
         #endregion
 
         #region Commands
@@ -157,17 +165,6 @@ namespace NugetReferencesExplorer.ViewModel
                 if (_loadCommand == null)
                     _loadCommand = new RelayCommand(LoadPackageItemsAsync, () => !IsBusy);
                 return _loadCommand;
-            }
-        }
-
-        private RelayCommand _consolidateCommand;
-        public RelayCommand ConsolidateCommand
-        {
-            get
-            {
-                if (_consolidateCommand == null)
-                    _consolidateCommand = new RelayCommand(Consolidate, () => !IsBusy && SelectedPackage != null && SelectedPackage.HasDifferentVersion);
-                return _consolidateCommand;
             }
         }
 

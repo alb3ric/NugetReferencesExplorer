@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace NugetReferencesExplorer.View
 {
     /// <summary>
-    /// Logique d'interaction pour NugetPackageView.xaml
+    /// Logique d'interaction pour ConsolidateUC.xaml
     /// </summary>
-    public partial class NugetPackageUC : UserControl
+    public partial class ConsolidateUC : UserControl
     {
-        public NugetPackageUC()
+        public ConsolidateUC()
         {
             InitializeComponent();
         }

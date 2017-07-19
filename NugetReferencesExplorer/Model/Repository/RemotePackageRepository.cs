@@ -1,5 +1,7 @@
 ﻿using NuGet;
+using NugetReferencesExplorer.Model.Domain;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,20 +11,56 @@ namespace NugetReferencesExplorer.Model.Repository
 {
     internal class RemotePackageRepository : IRemotePackageRepository
     {
-        //TODO : Should load from different URL, use nuget.config to get remote repostory urls
+        protected readonly log4net.ILog _log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        private readonly Lazy<IPackageRepository> _repo = new Lazy<IPackageRepository>(() => PackageRepositoryFactory.Default.CreateRepository(Properties.Settings.Default.officialRepositoryUrl));
-
-        public IPackage GetPackage(string packageId)
+        public RemotePackageRepository()
         {
-            //Connect to the official package repository
-            IVersionSpec v = new VersionSpec();
-            return _repo.Value.FindPackage(packageId, v, false, false);
+
+        }
+        
+        private readonly ConcurrentDictionary<string, NuGet.IPackageRepository> _cacheRepo = new ConcurrentDictionary<string, NuGet.IPackageRepository>(); 
+        private NuGet.IPackageRepository getNugetRepository(string source)
+        {
+            return _cacheRepo.GetOrAdd(source, (s) => NuGet.PackageRepositoryFactory.Default.CreateRepository(source));            
         }
 
-        public void Preload()
+        public PackageMetdata GetPackageMetada(string packageId, IEnumerable<string> sources)
         {
-            _repo.Value.Exists("AutoMapper");
+            foreach (var s in sources)
+            {
+                var repo = getNugetRepository(s);
+                if (repo != null)
+                {
+                    //Connect to the official package repository
+                    IVersionSpec v = new VersionSpec();
+                    IPackage p = repo.FindPackage(packageId, v, false, false);
+                    if (p != null)
+                        return PackageMetdata.Create(p, repo.Source);
+                }
+            }
+            return null;
         }
+
+        public void UpdatePackage(string packageId, string source, string path, string version)
+        {
+            try
+            {
+                //Get the repository
+                var repo = getNugetRepository(source);
+                //Initialize the package manager
+                PackageManager packageManager = new PackageManager(repo, path);
+                //Update the package
+                //packageManager.InstallPackage(packageId, new SemanticVersion(version));
+                //TODO : Not working here!!!
+                throw new NotImplementedException();
+                //packageManager.UpdatePackage(packageId, new SemanticVersion(version), false, false);
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex);
+                throw ex;
+            }
+        }
+
     }
 }
