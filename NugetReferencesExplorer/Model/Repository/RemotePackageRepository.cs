@@ -11,22 +11,20 @@ namespace NugetReferencesExplorer.Model.Repository
 {
     internal class RemotePackageRepository : IRemotePackageRepository
     {
-        public RemotePackageRepository(IEnumerable<string> sources)
+        public RemotePackageRepository()
         {
-            _sources = sources;
+
         }
-
-        private readonly IEnumerable<string> _sources;
-
+        
         private readonly ConcurrentDictionary<string, NuGet.IPackageRepository> _cacheRepo = new ConcurrentDictionary<string, NuGet.IPackageRepository>(); 
         private NuGet.IPackageRepository getNugetRepository(string source)
         {
             return _cacheRepo.GetOrAdd(source, (s) => NuGet.PackageRepositoryFactory.Default.CreateRepository(source));            
         }
 
-        public PackageMetdata GetPackage(string packageId)
+        public PackageMetdata GetPackageMetada(string packageId, IEnumerable<string> sources)
         {
-            foreach (var s in _sources)
+            foreach (var s in sources)
             {
                 var repo = getNugetRepository(s);
                 if (repo != null)
@@ -40,6 +38,17 @@ namespace NugetReferencesExplorer.Model.Repository
             }
             return null;
         }
-        
+
+        public void UpdatePackage(string packageId, string source, string path, string version)
+        {
+            //Get the repository
+            var repo = getNugetRepository(source);
+            //Initialize the package manager
+            PackageManager packageManager = new PackageManager(repo, path);
+            //Update the package
+            //packageManager.InstallPackage(packageId, new SemanticVersion(version));
+            packageManager.UpdatePackage(packageId, new SemanticVersion(version), false, false);
+        }
+
     }
 }

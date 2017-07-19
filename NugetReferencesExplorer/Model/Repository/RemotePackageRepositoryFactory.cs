@@ -8,10 +8,10 @@ namespace NugetReferencesExplorer.Model.Repository
 {
     public static class RemotePackageRepositoryFactory
     {
-        public static IRemotePackageRepository Create(IEnumerable<string> sources)
+        public static IRemotePackageRepository Create()
         {
             //Always the same for the moment
-            return new RemotePackageRepository(sources);
+            return new RemotePackageRepository();
         }
     }
 }

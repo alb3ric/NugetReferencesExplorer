@@ -1,4 +1,5 @@
-﻿using NugetReferencesExplorer.Model.Domain;
+﻿using NuGet;
+using NugetReferencesExplorer.Model.Domain;
 using NugetReferencesExplorer.Model.Repository;
 using System;
 using System.Collections.Generic;
@@ -13,27 +14,29 @@ namespace NugetReferencesExplorer.Model.BusinessServices
         public PackageService()
         {
             _localRepository = LocalPackageRepositoryFactory.Create();
+            _remoteRepository = RemotePackageRepositoryFactory.Create();
         }
 
-        private readonly ILocalPackageRepository _localRepository; 
+        private readonly ILocalPackageRepository _localRepository;
+        private readonly IRemotePackageRepository _remoteRepository;
 
         public IEnumerable<Package> LoadPackages(string path, IEnumerable<string> sources)
         {
             //Load the packages
             var packages = _localRepository.LoadPackages(path).OrderBy(x => x.Id).ToList();
             //Get the remote package infos
-            IRemotePackageRepository remoteRepository = RemotePackageRepositoryFactory.Create(sources);
-            packages.AsParallel().ForAll(x => x.Metadata = remoteRepository.GetPackage(x.Id));
+            packages.AsParallel().ForAll(x => x.Metadata = _remoteRepository.GetPackageMetada(x.Id, sources));
             //Return
             return packages;
         }
 
-        //public void UpdatePackageProject(PackageProject packageProject, SemanticVersion version)
-        //{
-            //Initialize the package manager
-            //PackageManager packageManager = new PackageManager(_repo.Value, packageProject.ProjectPath);
-            //Update the package
-            //packageManager.UpdatePackage(packageProject.PackageId, version, false, false);
-        //}
+        public void UpdatePackageProject(Package package, IEnumerable<PackageProject> packageProjects, string version)
+        {
+            foreach (var p in packageProjects)
+            {
+                if (p.Version != version)
+                    _remoteRepository.UpdatePackage(package.Id, package.Metadata.Source, p.ProjectPath, version);
+            }            
+        }
     }
 }
