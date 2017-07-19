@@ -51,7 +51,9 @@ namespace NugetReferencesExplorer.Model.Repository
                 PackageManager packageManager = new PackageManager(repo, path);
                 //Update the package
                 //packageManager.InstallPackage(packageId, new SemanticVersion(version));
-                packageManager.UpdatePackage(packageId, new SemanticVersion(version), false, false);
+                //TODO : Not working here!!!
+                throw new NotImplementedException();
+                //packageManager.UpdatePackage(packageId, new SemanticVersion(version), false, false);
             }
             catch (Exception ex)
             {
